@@ -5,8 +5,8 @@
 Claude Code 的自定义 status line 样式集。用一个交互式安装程序列出所有样式，在你的终端里直接预览，选好就装。
 
 ```
- Opus  xhigh   412k / 1.0M · 41%
-└─ model + effort ─┘ └─ context 用量 ─┘
+ Opus  xhigh   412k / 1.0M · 41%   1% · 6d12h 
+└─ model + effort ─┘ └─ context 用量 ─┘ └─ 每周用量 · 重置 ─┘
 ```
 
 ## 环境要求
@@ -35,7 +35,7 @@ gh repo clone shaohong01/cc-statuslines ~/.cc-statuslines
 
 | 样式 | 说明 |
 |---|---|
-| `pills-duo` | 双色胶囊：model 与 effort 合并成一颗，context 用量单独一颗。effort 与 context 按等级和用量在绿、黄、红之间变色 |
+| `pills-duo` | 双色胶囊：model 与 effort 合并成一颗，context 用量单独一颗，每周用量与重置倒计时放在白色胶囊。effort 与 context 按等级和用量在绿、黄、红之间变色，每周用量的文字在蓝、黄、红之间变色 |
 
 ## 命令
 
@@ -58,6 +58,8 @@ gh repo clone shaohong01/cc-statuslines ~/.cc-statuslines
 | `JOIN` | `round` | model 与 effort 的交界。`round` 是圆弧叠合；`flat` 是直切分色 |
 | `WARN` | `50` | context 用量达到这个百分比时变黄 |
 | `CRIT` | `80` | context 用量达到这个百分比时变红 |
+| `WK_WARN` | `70` | 每周用量达到这个百分比时文字变黄 |
+| `WK_CRIT` | `85` | 每周用量达到这个百分比时文字变红 |
 
 修改后保存，status line 下次刷新时就会生效。
 
@@ -94,5 +96,7 @@ git -C ~/.cc-statuslines pull
 **颜色不对。** 终端不支持 24 位真彩色。请换用支持的终端。
 
 **context 显示 0。** 新 session 或刚执行完 `/compact` 时还没有用量数据，下一次响应后就会出现。
+
+**没有每周用量那一颗。** 只有 claude.ai Pro、Max、Ultra 订阅才有这项数据，使用 API key 时不会显示。新 session 要等第一次响应后才会出现。
 
 **没有 effort 那一段。** 当前的模型不支持 effort 参数，这时只会显示 model。

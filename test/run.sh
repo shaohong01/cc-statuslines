@@ -1,6 +1,7 @@
 #!/bin/bash
 # 煙霧測試：每個樣式 × 每份模擬資料都要能正常輸出。
 # 用法：test/run.sh        （順便可以肉眼檢查各種狀態的樣子）
+# fixture 裡的 rate_limits.*.resets_at 寫的是「距離現在幾秒」，執行時換成真正的 epoch。
 REPO_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 fail=0
 for conf in "ROUND=1 JOIN=round" "ROUND=1 JOIN=flat" "ROUND=0"; do
@@ -9,7 +10,8 @@ for conf in "ROUND=1 JOIN=round" "ROUND=1 JOIN=flat" "ROUND=0"; do
   for style in "$REPO_DIR"/styles/*/statusline.sh; do
     name=$(basename "$(dirname "$style")")
     for fx in "$REPO_DIR"/test/fixtures/*.json; do
-      out=$(CC_STATUSLINE_CONF="$tmp" bash "$style" < "$fx"); rc=$?
+      out=$(jq -c --argjson now "$(date +%s)" 'if .rate_limits then .rate_limits |= map_values(if .resets_at then .resets_at += $now else . end) else . end' "$fx" \
+        | CC_STATUSLINE_CONF="$tmp" bash "$style"); rc=$?
       if [ $rc -ne 0 ] || [ -z "$out" ] || [ "${out#statusline:}" != "$out" ]; then
         echo "FAIL  $name  $(basename "$fx")  (exit $rc) $out"; fail=1
       else

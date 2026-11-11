@@ -5,8 +5,8 @@
 Claude Code 用のカスタム status line スタイル集です。対話式インストーラーがスタイルを一覧表示し、お使いのターミナルでそのままプレビューして、選んだものをインストールします。
 
 ```
- Opus  xhigh   412k / 1.0M · 41%
-└─ model + effort ─┘ └─ context 使用量 ─┘
+ Opus  xhigh   412k / 1.0M · 41%   1% · 6d12h 
+└─ model + effort ─┘ └─ context 使用量 ─┘ └─ 週間使用量 · リセット ─┘
 ```
 
 ## 必要なもの
@@ -35,7 +35,7 @@ gh repo clone shaohong01/cc-statuslines ~/.cc-statuslines
 
 | スタイル | 説明 |
 |---|---|
-| `pills-duo` | ツートーンのピル：model と effort を 1 つにまとめ、context 使用量は別のピルで表示。effort と context はレベルと使用量に応じて緑・黄・赤に変わります |
+| `pills-duo` | ツートーンのピル：model と effort を 1 つにまとめ、context 使用量は別のピル、週間使用量とリセットまでの残り時間は白いピルで表示。effort と context はレベルと使用量に応じて緑・黄・赤に、週間使用量の文字は青・黄・赤に変わります |
 
 ## コマンド
 
@@ -58,6 +58,8 @@ gh repo clone shaohong01/cc-statuslines ~/.cc-statuslines
 | `JOIN` | `round` | model と effort の境目。`round` は丸く重ねる、`flat` はまっすぐ区切る |
 | `WARN` | `50` | context 使用量がこの割合に達すると黄色になります |
 | `CRIT` | `80` | context 使用量がこの割合に達すると赤になります |
+| `WK_WARN` | `70` | 週間使用量がこの割合に達すると文字が黄色になります |
+| `WK_CRIT` | `85` | 週間使用量がこの割合に達すると文字が赤になります |
 
 保存すると、status line の次回更新時に反映されます。
 
@@ -94,5 +96,7 @@ git -C ~/.cc-statuslines pull
 **色がおかしい。** ターミナルが 24 ビット True Color に対応していません。対応しているターミナルをお使いください。
 
 **context が 0 と表示される。** 新しいセッションや `/compact` の直後は、まだ使用量のデータがありません。次の応答のあとに表示されます。
+
+**週間使用量のピルが表示されない。** このデータは claude.ai の Pro・Max・Ultra プランでのみ提供され、API キーでは表示されません。新しいセッションでは最初の応答のあとに表示されます。
 
 **effort の部分が表示されない。** 現在のモデルが effort パラメーターに対応していないため、model だけが表示されます。

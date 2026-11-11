@@ -226,8 +226,14 @@ current_style() {  # 目前連結指向 repo 內哪個樣式；不是我們裝�
   esac
 }
 
+fixture() {  # fixture <檔案>：把 rate_limits.*.resets_at 的「距離現在幾秒」換成真正的 epoch
+  jq -c --argjson now "$(date +%s)" \
+    'if .rate_limits then .rate_limits |= map_values(if .resets_at then .resets_at += $now else . end) else . end' "$1" 2>/dev/null \
+    || cat "$1"
+}
+
 preview_style() {  # preview_style <樣式>
-  CC_STATUSLINE_CONF="$CONF" bash "$STYLES_DIR/$1/statusline.sh" < "$FIXTURE"
+  fixture "$FIXTURE" | CC_STATUSLINE_CONF="$CONF" bash "$STYLES_DIR/$1/statusline.sh"
 }
 
 backup_file() {  # backup_file <檔案>：複製成 .bak-時間戳，不覆蓋既有備份；輸出備份檔名
@@ -458,7 +464,7 @@ case "$CMD" in
       fi
       for fx in "$REPO_DIR"/test/fixtures/*.json; do
         printf '  %-10s ' "$(basename "$fx" .json)"
-        CC_STATUSLINE_CONF="$CONF" bash "$STYLES_DIR/$ARG/statusline.sh" < "$fx"
+        fixture "$fx" | CC_STATUSLINE_CONF="$CONF" bash "$STYLES_DIR/$ARG/statusline.sh"
       done
     else
       echo; print_styles

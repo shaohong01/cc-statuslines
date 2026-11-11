@@ -5,3 +5,5 @@ ROUND=1      # 1 = 圓角膠囊（需要 Nerd Font）；0 = 方角色塊
 JOIN=round   # model 與 effort 的交界：round = 圓弧疊合；flat = 直切分色
 WARN=50      # context 用量達到這個百分比轉黃
 CRIT=80      # context 用量達到這個百分比轉紅
+WK_WARN=70   # 每週用量達到這個百分比文字轉黃
+WK_CRIT=85   # 每週用量達到這個百分比文字轉紅

@@ -5,8 +5,8 @@
 A collection of custom status line styles for Claude Code. An interactive installer lists every style, previews each one in your own terminal, and installs the one you pick.
 
 ```
- Opus  xhigh   412k / 1.0M · 41%
-└─ model + effort ─┘ └─ context usage ─┘
+ Opus  xhigh   412k / 1.0M · 41%   1% · 6d12h 
+└─ model + effort ─┘ └─ context usage ─┘ └─ weekly · reset ─┘
 ```
 
 ## Requirements
@@ -35,7 +35,7 @@ To skip the menu, name the style directly:
 
 | Style | Description |
 |---|---|
-| `pills-duo` | Two-tone pill: model and effort joined in one pill, context usage in its own. Effort and context shift between green, yellow, and red by level and usage |
+| `pills-duo` | Two-tone pill: model and effort joined in one pill, context usage in its own, weekly usage and reset countdown in a white pill. Effort and context shift between green, yellow, and red by level and usage; the weekly text shifts between blue, yellow, and red |
 
 ## Commands
 
@@ -58,6 +58,8 @@ The installer creates `~/.claude/statusline.conf`. Put your tweaks there, and up
 | `JOIN` | `round` | The seam between model and effort. `round` overlaps with a curve; `flat` is a straight split |
 | `WARN` | `50` | Context usage percentage where the pill turns yellow |
 | `CRIT` | `80` | Context usage percentage where the pill turns red |
+| `WK_WARN` | `70` | Weekly usage percentage where the text turns yellow |
+| `WK_CRIT` | `85` | Weekly usage percentage where the text turns red |
 
 Save the file and the status line picks it up on its next refresh.
 
@@ -94,5 +96,7 @@ The menu scans `styles/` automatically, so `install.sh` needs no changes.
 **The colors look wrong.** Your terminal doesn't support 24-bit true color. Use one that does.
 
 **Context shows 0.** A new session, or one right after `/compact`, has no usage data yet. It appears after the next response.
+
+**The weekly usage pill is missing.** Only claude.ai Pro, Max, and Ultra subscriptions report it, so it doesn't show with an API key. In a new session it appears after the first response.
 
 **The effort segment is missing.** The current model doesn't support the effort parameter, so only the model is shown.

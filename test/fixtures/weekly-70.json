@@ -1,0 +1,1 @@
+{"model":{"id":"claude-haiku-5-5","display_name":"Haiku"},"context_window":{"context_window_size":200000,"used_percentage":19,"current_usage":{"input_tokens":38000,"cache_creation_input_tokens":0,"cache_read_input_tokens":0}},"rate_limits":{"seven_day":{"used_percentage":70,"resets_at":86400}}}
