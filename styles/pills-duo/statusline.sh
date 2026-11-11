@@ -50,6 +50,8 @@ fmt() { awk -v n="$1" 'BEGIN{ if(n>=1e6) printf "%.1fM", n/1e6; else if(n>=1e3) 
 # ---- 顏色（r;g;b，24-bit 真彩色）----
 BLUE='66;133;244'; RED='234;67;53'; YELLOW='251;188;5'; GREEN='52;168;83'; GRAY='154;160;166'
 WHITE='255;255;255'; DARK='32;33;36'
+# 白底專用的加深版，對白色的對比度都在 5.3:1 以上（原色在白底上太淺）
+BLUE_D='25;103;210'; YELLOW_D='154;91;0'; RED_D='197;34;31'
 
 L=$'\xee\x82\xb6'; R=$'\xee\x82\xb4'   # Nerd Font 的左右半圓（U+E0B6、U+E0B4）
 
@@ -91,11 +93,11 @@ if [ "$EFFORT" != "-" ]; then duo "$BLUE" "$WHITE" "$MODEL" "$EB" "$EF" "$EFFORT
 else pill "$BLUE" "$WHITE" "$MODEL"; fi
 printf ' '; pill "$CB" "$CF" "$(fmt "$USED") / $(fmt "$SIZE") · ${PCT}%"
 
-# 每週用量：白底，文字低於 WK_WARN 藍、低於 WK_CRIT 黃、其餘紅
+# 每週用量：白底，文字低於 WK_WARN 藍、低於 WK_CRIT 琥珀、其餘紅（皆為加深版）
 case "$WPCT" in ''|*[!0-9]*) ;; *)
-  if   [ "$WPCT" -lt "$WK_WARN" ]; then WF=$BLUE
-  elif [ "$WPCT" -lt "$WK_CRIT" ]; then WF=$YELLOW
-  else                                  WF=$RED; fi
+  if   [ "$WPCT" -lt "$WK_WARN" ]; then WF=$BLUE_D
+  elif [ "$WPCT" -lt "$WK_CRIT" ]; then WF=$YELLOW_D
+  else                                  WF=$RED_D; fi
   W="${WPCT}%"
   case "$WRESET" in ''|*[!0-9]*) ;; *) W="$W · $(left "$WRESET")" ;; esac
   printf ' '; pill "$WHITE" "$WF" "$W"
