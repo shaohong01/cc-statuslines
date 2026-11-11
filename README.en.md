@@ -73,7 +73,7 @@ The installed script is a link into the repo, so a pull is all it takes.
 
 - Creates `~/.claude/statusline.sh` as a link to the style you picked.
 - Writes the `statusLine` setting into `~/.claude/settings.json` and leaves your other settings as they are.
-- Backs up `settings.json` to `settings.json.bak-<time>` before editing it.
+- Backs up `settings.json` to `settings.json.bak-<time>` before editing it on the first install. Switching styles later only repoints the link, so `settings.json` is not touched and no new backup is made.
 - Renames an existing `statusline.sh` of your own to `statusline.sh.bak-<time>`.
 
 Uninstalling removes only the link and the `statusLine` setting. Backups and `statusline.conf` stay.

@@ -247,7 +247,7 @@ need_jq() {
 # ---------- 安裝／移除 ----------
 
 do_install() {  # do_install <樣式>
-  local name="$1" src ts tmp
+  local name="$1" src ts tmp cur_cmd need_write=1
   src="$STYLES_DIR/$name/statusline.sh"
   if [ ! -f "$src" ]; then
     err "$(printf "$M_NO_STYLE" "$name")"
@@ -263,7 +263,13 @@ do_install() {  # do_install <樣式>
       err "$(printf "$M_BAD_JSON" "$SETTINGS")"
       exit 1
     fi
-    ok "$(printf "$M_BACKUP" "$SETTINGS → $(backup_file "$SETTINGS")")"
+    # 已經指向我們的連結（切換樣式）就不必再動 settings.json，也不再備份
+    cur_cmd=$(jq -r '.statusLine | "\(.type // "")|\(.command // "")"' "$SETTINGS" 2>/dev/null)
+    if [ "$cur_cmd" = "command|$LINK" ]; then
+      need_write=0
+    else
+      ok "$(printf "$M_BACKUP" "$SETTINGS → $(backup_file "$SETTINGS")")"
+    fi
   else
     echo '{}' > "$SETTINGS"
   fi
@@ -279,11 +285,13 @@ do_install() {  # do_install <樣式>
   ln -s "$src" "$LINK"
 
   # 只合併 statusLine 的 type 與 command，其餘設定原樣保留
-  tmp=$(mktemp)
-  if jq --arg cmd "$LINK" '.statusLine = ((.statusLine // {}) + {type: "command", command: $cmd})' "$SETTINGS" > "$tmp"; then
-    cat "$tmp" > "$SETTINGS"
+  if [ "$need_write" = 1 ]; then
+    tmp=$(mktemp)
+    if jq --arg cmd "$LINK" '.statusLine = ((.statusLine // {}) + {type: "command", command: $cmd})' "$SETTINGS" > "$tmp"; then
+      cat "$tmp" > "$SETTINGS"
+    fi
+    rm -f "$tmp"
   fi
-  rm -f "$tmp"
 
   if [ ! -f "$CONF" ] && [ -f "$REPO_DIR/statusline.conf.example" ]; then
     cp "$REPO_DIR/statusline.conf.example" "$CONF"

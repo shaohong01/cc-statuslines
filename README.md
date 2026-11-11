@@ -73,7 +73,7 @@ git -C ~/.cc-statuslines pull
 
 - 把 `~/.claude/statusline.sh` 建成連結，指向你選的樣式。
 - 在 `~/.claude/settings.json` 寫入 `statusLine` 設定，其他設定原樣保留。
-- 修改前先把 `settings.json` 備份成 `settings.json.bak-<時間>`。
+- 第一次安裝時，修改前先把 `settings.json` 備份成 `settings.json.bak-<時間>`。之後切換樣式只會換連結，不再修改 `settings.json`，也不會再產生備份。
 - 如果你原本有自己的 `statusline.sh`，會改名成 `statusline.sh.bak-<時間>` 保留下來。
 
 移除時只會拿掉連結和 `statusLine` 設定，備份檔與 `statusline.conf` 都會留著。

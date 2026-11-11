@@ -73,7 +73,7 @@ git -C ~/.cc-statuslines pull
 
 - `~/.claude/statusline.sh` を、選んだスタイルへのリンクとして作成します。
 - `~/.claude/settings.json` に `statusLine` の設定を書き込みます。ほかの設定はそのまま残ります。
-- 変更前に `settings.json` を `settings.json.bak-<日時>` としてバックアップします。
+- 初回インストール時は、変更前に `settings.json` を `settings.json.bak-<日時>` としてバックアップします。その後のスタイル切り替えはリンクを付け替えるだけなので、`settings.json` は変更されず、バックアップも増えません。
 - 自作の `statusline.sh` がすでにある場合は、`statusline.sh.bak-<日時>` に名前を変えて残します。
 
 削除時に取り除かれるのはリンクと `statusLine` の設定だけです。バックアップと `statusline.conf` は残ります。
