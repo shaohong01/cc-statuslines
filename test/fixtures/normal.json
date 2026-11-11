@@ -1,0 +1,1 @@
+{"model":{"id":"claude-opus-5-5","display_name":"Opus"},"effort":{"level":"xhigh"},"context_window":{"context_window_size":1000000,"used_percentage":41.2,"current_usage":{"input_tokens":2000,"cache_creation_input_tokens":10000,"cache_read_input_tokens":400000}}}

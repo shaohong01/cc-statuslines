@@ -1,0 +1,7 @@
+# cc-statuslines 個人設定
+# 安裝時會複製成 ~/.claude/statusline.conf；改這裡不會被 git pull 蓋掉。
+
+ROUND=1      # 1 = 圓角膠囊（需要 Nerd Font）；0 = 方角色塊
+JOIN=round   # model 與 effort 的交界：round = 圓弧疊合；flat = 直切分色
+WARN=50      # context 用量達到這個百分比轉黃
+CRIT=80      # context 用量達到這個百分比轉紅
